@@ -1,0 +1,5 @@
+*.xcworkspace
+!default.xcworkspace
+xcuserdata
+
+.DS_Store
