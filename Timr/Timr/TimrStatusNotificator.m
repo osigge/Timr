@@ -7,6 +7,8 @@
 //
 
 #import "TimrStatusNotificator.h"
+#import "PowerSource.h"
+#import "Settings.h"
 
 @interface TimrStatusNotificator ()
 
@@ -25,6 +27,18 @@
         sharedInstance = [[TimrStatusNotificator alloc] init];
     });
     return sharedInstance;
+}
+
+- (void)notifyWithPowerSource:(PowerSource*)powerSource{
+    if(powerSource.charged){
+        [self notifyWithMessage:NSLocalizedString(@"Charged", @"Charged notification") withId:[powerSource.remainingChargeInPercent stringValue]];
+        return;
+    }
+    
+    Settings *settings = [Settings sharedSettings];
+    if([settings notificationsContainValue:powerSource.remainingChargeInPercent]){
+        [self notifyWithMessage:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), [powerSource.remainingHours integerValue], [powerSource.remainingMinutes integerValue], [powerSource.remainingChargeInPercent integerValue]] withId:[powerSource.remainingChargeInPercent stringValue]];
+    }
 }
 
 - (void)notifyWithMessage:(NSString *)message withId:(NSString*)identifier{
