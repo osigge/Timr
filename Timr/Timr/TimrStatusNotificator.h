@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class PowerSource;
+
 @interface TimrStatusNotificator : NSObject
 
 + (TimrStatusNotificator *)sharedNotificator;
 
+- (void)notifyWithPowerSource:(PowerSource*)powerSource;
 - (void)notifyWithMessage:(NSString *)message withId:(NSString*)identifier;
 - (void)resetNotifications;
 

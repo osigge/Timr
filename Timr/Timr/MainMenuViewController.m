@@ -101,13 +101,7 @@ static void PowerSourceChanged(void * context){
 
 - (void)notifyNotificationCenterWithPowerSource:(PowerSource*)aPowerSource{
     TimrStatusNotificator *notificator = [TimrStatusNotificator sharedNotificator];
-    if(self.powerSource.charged){
-        [notificator notifyWithMessage:NSLocalizedString(@"Charged", @"Charged notification") withId:@"charged"];
-        return;
-    }
-    if([self.settings notificationsContainValue:self.powerSource.remainingChargeInPercent]){
-        [notificator notifyWithMessage:[NSString stringWithFormat:NSLocalizedString(@"%1$ld:%2$02ld left (%3$ld%%)", @"Time remaining left notification"), [self.powerSource.remainingHours integerValue], [self.powerSource.remainingMinutes integerValue], [self.powerSource.remainingChargeInPercent integerValue]] withId:[self.powerSource.remainingChargeInPercent stringValue]];
-    }
+    [notificator notifyWithPowerSource:aPowerSource];
 }
 
 - (void)advancedModeHasChanged:(NSNotification*)notification{
